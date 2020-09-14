@@ -6,11 +6,15 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0 ;
+    public EditText rep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        rep = (EditText) findViewById(R.id.reponse);
     }
 
     /**
@@ -77,5 +84,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void activerGPSWindow() {
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);
+    }
+
+    public void afficherRep(View view){
+        Context context = getApplicationContext();
+        Toast.makeText(context,rep.getText(),Toast.LENGTH_LONG).show();
     }
 }

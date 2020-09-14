@@ -9,23 +9,26 @@
     tools:context=".MapsActivity" >
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/valider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:text="valider"
+        android:onClick="afficherRep"
         android:padding="10dp"
         android:layout_marginBottom="20dp"
         android:paddingRight="10dp"/>
 
     <EditText
-        android:id="@+id/plain_text_input"
+        android:id="@+id/reponse"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:inputType="number"
         android:layout_gravity="bottom"
-        android:padding="10dp"
         android:layout_marginBottom="20dp"
-        android:paddingLeft="10dp"/>/>
+        android:hint="Réponse (en Km)"
+        android:inputType="number"
+        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
     </fragment>
