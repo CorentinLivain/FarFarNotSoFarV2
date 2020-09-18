@@ -42,7 +42,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public double longitude, latitude;
     public LatLng sydney;
     public TextView distRep;
-    public TextView latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         rep = (EditText) findViewById(R.id.reponse);
         distRep = (TextView) findViewById(R.id.dist);
-        latLng = (TextView) findViewById(R.id.latLng);
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -117,16 +115,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getCurrentLocation();
         String position = "ma Latitude: " + latitude + " ma Longitude: " + longitude;
         Toast.makeText(context, position, Toast.LENGTH_LONG).show();
-        String balise = "balise lat: " + sydney.latitude + " balise lng: " + sydney.longitude;
-        Toast.makeText(context, balise, Toast.LENGTH_LONG).show();
-        float[] results = new float[1];
-        Location.distanceBetween(latitude, longitude, sydney.latitude, sydney.longitude, results);
-        float distance = results[0];
-        String dist = "distance: " + distance/1000;
-        distRep.setText(dist);
-        String loc = latitude + " , " + longitude;
-        latLng.setText(loc);
-        Toast.makeText(context, dist, Toast.LENGTH_LONG).show();
+        distRep.setText(calculerDistance());
+        Toast.makeText(context, calculerDistance(), Toast.LENGTH_LONG).show();
     }
 
     LocationListener locationListener = new LocationListener() {
@@ -172,16 +162,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public double calculerDistance(){
-        Location startPoint=new Location("locationA");
-        startPoint.setLatitude(latitude);
-        startPoint.setLongitude(longitude);
-
-        Location endPoint=new Location("locationA");
-        endPoint.setLatitude(sydney.latitude);
-        endPoint.setLongitude(sydney.longitude);
-        
-        double distance;
-        return distance=startPoint.distanceTo(endPoint);
+    public String calculerDistance(){
+        float[] results = new float[1];
+        Location.distanceBetween(latitude, longitude, sydney.latitude, sydney.longitude, results);
+        float distance = results[0];
+        String dist = "distance: " + distance/1000;
+        return dist;
     }
 }
