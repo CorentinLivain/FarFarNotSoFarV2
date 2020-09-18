@@ -15,8 +15,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -39,6 +41,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public FusedLocationProviderClient mFusedLocationProviderClient;
     public double longitude, latitude;
     public LatLng sydney;
+    public TextView distRep;
+    public TextView latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         rep = (EditText) findViewById(R.id.reponse);
+        distRep = (TextView) findViewById(R.id.dist);
+        latLng = (TextView) findViewById(R.id.latLng);
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -113,6 +119,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toast.makeText(context, position, Toast.LENGTH_LONG).show();
         String balise = "balise lat: " + sydney.latitude + " balise lng: " + sydney.longitude;
         Toast.makeText(context, balise, Toast.LENGTH_LONG).show();
+        float[] results = new float[1];
+        Location.distanceBetween(latitude, longitude, sydney.latitude, sydney.longitude, results);
+        float distance = results[0];
+        String dist = "distance: " + distance/1000;
+        distRep.setText(dist);
+        String loc = latitude + " , " + longitude;
+        latLng.setText(loc);
+        Toast.makeText(context, dist, Toast.LENGTH_LONG).show();
     }
 
     LocationListener locationListener = new LocationListener() {
@@ -156,5 +170,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void afficherBalise(){
 
+    }
+
+    public double calculerDistance(){
+        Location startPoint=new Location("locationA");
+        startPoint.setLatitude(latitude);
+        startPoint.setLongitude(longitude);
+
+        Location endPoint=new Location("locationA");
+        endPoint.setLatitude(sydney.latitude);
+        endPoint.setLongitude(sydney.longitude);
+        
+        double distance;
+        return distance=startPoint.distanceTo(endPoint);
     }
 }
