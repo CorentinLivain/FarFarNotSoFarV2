@@ -1,5 +1,6 @@
 package com.example.farfarnotsofarv2;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -9,6 +10,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -16,18 +19,26 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0 ;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
     public EditText rep;
+    public boolean mLocationPermissionGranted;
+    public FusedLocationProviderClient mFusedLocationProviderClient;
+    public double longitude, latitude;
+    public LatLng sydney;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         rep = (EditText) findViewById(R.id.reponse);
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+
+
     }
 
     /**
@@ -74,11 +90,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         mMap.setMyLocationEnabled(true);
+        mLocationPermissionGranted = true;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        getCurrentLocation();
     }
 
     private void activerGPSWindow() {
@@ -86,8 +105,56 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
-    public void afficherRep(View view){
+    public void afficherRep(View view) {
         Context context = getApplicationContext();
-        Toast.makeText(context,rep.getText(),Toast.LENGTH_LONG).show();
+        Toast.makeText(context, rep.getText(), Toast.LENGTH_LONG).show();
+        getCurrentLocation();
+        String position = "ma Latitude: " + latitude + " ma Longitude: " + longitude;
+        Toast.makeText(context, position, Toast.LENGTH_LONG).show();
+        String balise = "balise lat: " + sydney.latitude + " balise lng: " + sydney.longitude;
+        Toast.makeText(context, balise, Toast.LENGTH_LONG).show();
+    }
+
+    LocationListener locationListener = new LocationListener() {
+
+        @Override
+        public void onLocationChanged(@NonNull Location location) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            String msg = "New Latitude: " + latitude + "New Longitude: " + longitude;
+            Context context = getApplicationContext();
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+        }
+    };
+
+    public void getCurrentLocation() {
+        if (mLocationPermissionGranted) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            Task locationResult = mFusedLocationProviderClient.getLastLocation();
+            locationResult.addOnCompleteListener(this, new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        // Set the map's camera position to the current location of the device.
+                        Location mLastKnownLocation = (Location) task.getResult();
+                        latitude = mLastKnownLocation.getLatitude();
+                        longitude = mLastKnownLocation.getLongitude();
+                    }
+                }
+            });
+        }
+    }
+
+    public void afficherBalise(){
+
     }
 }
