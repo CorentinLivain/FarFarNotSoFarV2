@@ -25,4 +25,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
+
+    public void tuto(View view) {
+        Intent intent = new Intent(this, TutorielActivity.class);
+        startActivity(intent);
+    }
 }
