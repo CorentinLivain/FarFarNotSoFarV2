@@ -9,16 +9,15 @@ public class Balise {
     public MapsActivity context;
     public String titre;
     public LatLng coordonnees;
-    public boolean valide;
     public Marker marqueur;
 
-    public Balise(MapsActivity context, String titre ,LatLng coordonnees) {
+    /*public Balise(MapsActivity context, String titre ,LatLng coordonnees) {
         this.context = context;
         this.titre = titre;
         this.coordonnees = coordonnees;
         this.valide = false;
         this.marqueur = null;
-    }
+    }*/
 
     public void creerMarqueur(GoogleMap pMap) {
         marqueur = pMap.addMarker(new MarkerOptions()

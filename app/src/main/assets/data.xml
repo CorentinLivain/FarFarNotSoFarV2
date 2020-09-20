@@ -2,17 +2,14 @@
 <balises>
     <balise>
         <ville>Paris</ville>
-        <lattitude>48.8566969</lattitude>
-        <longitude>2.3514616</longitude>
+        <latlng>48.8566969,2.3514616</latlng>
     </balise>
     <balise>
         <ville>Marseille</ville>
-        <lattitude>45.7563</lattitude>
-        <longitude>5.3699525</longitude>
+        <latlng>45.7563,5.3699525</latlng>
     </balise>
     <balise>
         <ville>Lyon</ville>
-        <lattitude>48.08559184306898</lattitude>
-        <longitude>4.82652</longitude>
+        <latlng>48.08559184306898,4.82652</latlng>
     </balise>
 </balises>

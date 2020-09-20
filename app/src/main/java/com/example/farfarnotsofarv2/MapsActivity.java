@@ -32,6 +32,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -41,8 +49,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public FusedLocationProviderClient mFusedLocationProviderClient;
     public double longitude, latitude;
     public LatLng sydney;
-    public TextView distRep, dif;
+    public TextView bal;
     public Context context;
+    private ArrayList<Balise> balises;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +63,72 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         rep = (EditText) findViewById(R.id.reponse);
-        distRep = (TextView) findViewById(R.id.dist);
-        dif = (TextView) findViewById(R.id.dif);
+        bal = (TextView) findViewById(R.id.balises);
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         context = getApplicationContext();
+
+        parseXML();
+    }
+
+    private void parseXML(){
+        XmlPullParserFactory parserFactory;
+        try {
+            parserFactory = XmlPullParserFactory.newInstance();
+            XmlPullParser parser = parserFactory.newPullParser();
+            InputStream is = getAssets().open("data.xml");
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(is, null);
+
+            processParsing(parser);
+
+        } catch (XmlPullParserException | IOException e) {
+        }
+    }
+
+    private void processParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
+        balises = new ArrayList<>();
+        int eventType = parser.getEventType();
+        Balise currentBalise = null;
+
+        while(eventType != XmlPullParser.END_DOCUMENT){
+            String eltName = null;
+
+            switch (eventType){
+                case XmlPullParser.START_TAG:
+                    eltName = parser.getName();
+
+                    if ("balise".equals(eltName)){
+                        currentBalise = new Balise();
+                        balises.add(currentBalise);
+                        currentBalise.context = this;
+                    } else if (currentBalise != null){
+                        if ("ville".equals(eltName)){
+                            currentBalise.titre = parser.nextText();
+                        } else if("latlng".equals(eltName)){
+                            String[] latLng = parser.nextText().split(",");
+                            double parseLatitude = Double.parseDouble(latLng[0]);
+                            double parseLongitude = Double.parseDouble(latLng[1]);
+                            currentBalise.coordonnees = new LatLng(parseLatitude,parseLongitude);
+                        }
+                    }
+                    break;
+            }
+            eventType = parser.next();
+        }
+
+        printBalises(balises);
+    }
+
+    private void printBalises(ArrayList<Balise> balises){
+        StringBuilder builder = new StringBuilder();
+
+        for (Balise balise : balises){
+            builder.append(balise.titre).append("\n").append(balise.coordonnees).append("\n\n");
+        }
+
+        bal.setText(builder.toString());
     }
 
     /**
@@ -118,8 +187,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre", Toast.LENGTH_LONG).show();
         } else {
             getCurrentLocation();
-            distRep.setText("distance : " + Integer.toString(calculerDistance()));
-            dif.setText("différence : " + Integer.toString(difDistance()));
+            /*distRep.setText("distance : " + Integer.toString(calculerDistance()));
+            dif.setText("différence : " + Integer.toString(difDistance()));*/
         }
     }
 
@@ -160,9 +229,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public int difDistance(){
         int dif = calculerDistance() - Integer.parseInt(rep.getText().toString());
         return dif;
-    }
-
-    public void parseBalise(){
-
     }
 }
