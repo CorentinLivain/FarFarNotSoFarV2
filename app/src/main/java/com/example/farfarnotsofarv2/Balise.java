@@ -7,19 +7,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class Balise {
     public MapsActivity context;
-    public LatLng coordonnees;
     public String titre;
+    public LatLng coordonnees;
     public boolean valide;
     public Marker marqueur;
-    public int numero;
 
-    public Balise(MapsActivity context, LatLng coordonnees, String titre, int numero) {
+    public Balise(MapsActivity context, String titre ,LatLng coordonnees) {
         this.context = context;
-        this.coordonnees = coordonnees;
         this.titre = titre;
+        this.coordonnees = coordonnees;
         this.valide = false;
         this.marqueur = null;
-        this.numero = numero;
     }
 
     public void creerMarqueur(GoogleMap pMap) {

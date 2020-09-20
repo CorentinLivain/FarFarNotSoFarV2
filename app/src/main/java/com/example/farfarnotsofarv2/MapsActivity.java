@@ -41,7 +41,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public FusedLocationProviderClient mFusedLocationProviderClient;
     public double longitude, latitude;
     public LatLng sydney;
-    public TextView distRep;
+    public TextView distRep, dif;
+    public Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +55,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         rep = (EditText) findViewById(R.id.reponse);
         distRep = (TextView) findViewById(R.id.dist);
+        dif = (TextView) findViewById(R.id.dif);
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-
-
+        context = getApplicationContext();
     }
 
     /**
@@ -110,26 +111,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void afficherRep(View view) {
-        Context context = getApplicationContext();
-        Toast.makeText(context, rep.getText(), Toast.LENGTH_LONG).show();
-        getCurrentLocation();
-        String position = "ma Latitude: " + latitude + " ma Longitude: " + longitude;
-        Toast.makeText(context, position, Toast.LENGTH_LONG).show();
-        distRep.setText(calculerDistance());
-        Toast.makeText(context, calculerDistance(), Toast.LENGTH_LONG).show();
-    }
-
-    LocationListener locationListener = new LocationListener() {
-
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            String msg = "New Latitude: " + latitude + "New Longitude: " + longitude;
-            Context context = getApplicationContext();
-            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+        int reponse = Integer.parseInt(rep.getText().toString());
+        if(rep.getText() == null){
+            Toast.makeText(context, "Entré une réponse", Toast.LENGTH_LONG).show();
+        } else if (reponse > 20037){
+            Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre", Toast.LENGTH_LONG).show();
+        } else {
+            getCurrentLocation();
+            distRep.setText("distance : " + Integer.toString(calculerDistance()));
+            dif.setText("différence : " + Integer.toString(difDistance()));
         }
-    };
+    }
 
     public void getCurrentLocation() {
         if (mLocationPermissionGranted) {
@@ -158,15 +150,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void afficherBalise(){
-
-    }
-
-    public String calculerDistance(){
+    public int calculerDistance(){
         float[] results = new float[1];
         Location.distanceBetween(latitude, longitude, sydney.latitude, sydney.longitude, results);
-        float distance = results[0];
-        String dist = "distance: " + distance/1000;
-        return dist;
+        int distance = (int)results[0]/1000;
+        return distance;
+    }
+
+    public int difDistance(){
+        int dif = calculerDistance() - Integer.parseInt(rep.getText().toString());
+        return dif;
+    }
+
+    public void parseBalise(){
+
     }
 }
