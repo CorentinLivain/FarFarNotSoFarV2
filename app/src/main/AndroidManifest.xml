@@ -48,6 +48,9 @@
 
         <activity android:name=".TutorielActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".EndActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

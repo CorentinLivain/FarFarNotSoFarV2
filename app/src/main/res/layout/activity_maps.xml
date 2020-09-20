@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:text="valider"
-        android:onClick="afficherRep"
+        android:onClick="boutonPress"
         android:padding="10dp"
         android:layout_marginBottom="20dp"
         android:paddingRight="10dp"/>

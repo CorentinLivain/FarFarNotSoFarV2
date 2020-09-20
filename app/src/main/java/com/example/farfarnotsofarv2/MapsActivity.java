@@ -48,10 +48,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean mLocationPermissionGranted;
     public FusedLocationProviderClient mFusedLocationProviderClient;
     public double longitude, latitude;
-    public LatLng sydney;
     public TextView bal;
     public Context context;
     private ArrayList<Balise> balises;
+    private Balise balise;
+    private int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,65 +71,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         context = getApplicationContext();
 
         parseXML();
-    }
-
-    private void parseXML(){
-        XmlPullParserFactory parserFactory;
-        try {
-            parserFactory = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = parserFactory.newPullParser();
-            InputStream is = getAssets().open("data.xml");
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(is, null);
-
-            processParsing(parser);
-
-        } catch (XmlPullParserException | IOException e) {
-        }
-    }
-
-    private void processParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
-        balises = new ArrayList<>();
-        int eventType = parser.getEventType();
-        Balise currentBalise = null;
-
-        while(eventType != XmlPullParser.END_DOCUMENT){
-            String eltName = null;
-
-            switch (eventType){
-                case XmlPullParser.START_TAG:
-                    eltName = parser.getName();
-
-                    if ("balise".equals(eltName)){
-                        currentBalise = new Balise();
-                        balises.add(currentBalise);
-                        currentBalise.context = this;
-                    } else if (currentBalise != null){
-                        if ("ville".equals(eltName)){
-                            currentBalise.titre = parser.nextText();
-                        } else if("latlng".equals(eltName)){
-                            String[] latLng = parser.nextText().split(",");
-                            double parseLatitude = Double.parseDouble(latLng[0]);
-                            double parseLongitude = Double.parseDouble(latLng[1]);
-                            currentBalise.coordonnees = new LatLng(parseLatitude,parseLongitude);
-                        }
-                    }
-                    break;
-            }
-            eventType = parser.next();
-        }
-
-        printBalises(balises);
-    }
-
-    private void printBalises(ArrayList<Balise> balises){
-        StringBuilder builder = new StringBuilder();
-
-        for (Balise balise : balises){
-            builder.append(balise.titre).append("\n").append(balise.coordonnees).append("\n\n");
-        }
-
-        bal.setText(builder.toString());
     }
 
     /**
@@ -166,29 +108,94 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         mLocationPermissionGranted = true;
 
-        // Add a marker in Sydney and move the camera
-        sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
         getCurrentLocation();
+
+        afficherBalise();
     }
+
+    private void parseXML(){
+        XmlPullParserFactory parserFactory;
+        try {
+            parserFactory = XmlPullParserFactory.newInstance();
+            XmlPullParser parser = parserFactory.newPullParser();
+            InputStream is = getAssets().open("data.xml");
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(is, null);
+
+            processParsing(parser);
+
+        } catch (XmlPullParserException | IOException e) {
+        }
+    }
+
+    private void processParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
+        balises = new ArrayList<>();
+        int eventType = parser.getEventType();
+        Balise currentBalise = null;
+
+        while(eventType != XmlPullParser.END_DOCUMENT){
+            String eltName = null;
+
+            switch (eventType){
+                case XmlPullParser.START_TAG:
+                    eltName = parser.getName();
+
+                    if ("balise".equals(eltName)){
+                        currentBalise = new Balise();
+                        balises.add(currentBalise);
+                        currentBalise.context = this;
+                    } else if (currentBalise != null){
+                        if ("ville".equals(eltName)){
+                            currentBalise.ville = parser.nextText();
+                        } else if("latlng".equals(eltName)){
+                            String[] latLng = parser.nextText().split(",");
+                            double parseLatitude = Double.parseDouble(latLng[0]);
+                            double parseLongitude = Double.parseDouble(latLng[1]);
+                            currentBalise.coordonnees = new LatLng(parseLatitude,parseLongitude);
+                        }
+                    }
+                    break;
+            }
+            eventType = parser.next();
+        }
+
+        //printBalises(balises);
+    }
+
+    /*private void printBalises(ArrayList<Balise> balises){
+        StringBuilder builder = new StringBuilder();
+
+        for (Balise balise : balises){
+            builder.append(balise.ville).append("\n").append(balise.coordonnees).append("\n\n");
+        }
+
+        bal.setText(builder.toString());
+    }*/
 
     private void activerGPSWindow() {
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);
     }
 
-    public void afficherRep(View view) {
-        int reponse = Integer.parseInt(rep.getText().toString());
-        if(rep.getText() == null){
+    public void boutonPress(View view) {
+        while (rep.getText() == null){
             Toast.makeText(context, "Entré une réponse", Toast.LENGTH_LONG).show();
-        } else if (reponse > 20037){
+        }
+        int reponse = Integer.parseInt(rep.getText().toString());
+        if (reponse > 20037){
             Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre", Toast.LENGTH_LONG).show();
         } else {
             getCurrentLocation();
+            Toast.makeText(context, "différence : " + difDistance() + "Km", Toast.LENGTH_LONG).show();
             /*distRep.setText("distance : " + Integer.toString(calculerDistance()));
             dif.setText("différence : " + Integer.toString(difDistance()));*/
+        }
+        if (i != balises.size()){
+            mMap.clear();
+            afficherBalise();
+        } else {
+            Intent intent = new Intent(this, EndActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -221,13 +228,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public int calculerDistance(){
         float[] results = new float[1];
-        Location.distanceBetween(latitude, longitude, sydney.latitude, sydney.longitude, results);
+        Location.distanceBetween(latitude, longitude, balise.getLatitude(), balise.getLongitude(), results);
         int distance = (int)results[0]/1000;
         return distance;
     }
 
     public int difDistance(){
         int dif = calculerDistance() - Integer.parseInt(rep.getText().toString());
-        return dif;
+        return  Math.abs(dif);
+    }
+
+    private void afficherBalise(){
+        balise = balises.get(i);
+        balise.creerMarqueur(mMap);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(balise.coordonnees));
+        i++;
     }
 }
