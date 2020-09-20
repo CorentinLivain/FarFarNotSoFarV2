@@ -189,13 +189,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(context, "différence : " + difDistance() + "Km", Toast.LENGTH_LONG).show();
             /*distRep.setText("distance : " + Integer.toString(calculerDistance()));
             dif.setText("différence : " + Integer.toString(difDistance()));*/
-            }
-            if (i != balises.size()){
-                mMap.clear();
-                afficherBalise();
-            } else {
-                Intent intent = new Intent(this, EndActivity.class);
-                startActivity(intent);
+                if (i != balises.size()){
+                    mMap.clear();
+                    afficherBalise();
+                } else {
+                    Intent intent = new Intent(this, EndActivity.class);
+                    startActivity(intent);
+                }
             }
         }
     }
