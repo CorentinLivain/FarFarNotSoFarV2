@@ -53,6 +53,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<Balise> balises;
     private Balise balise;
     private int i = 0;
+    private int score = 0;
+    private int scoreTot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,12 +183,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (rep.getText().toString().isEmpty()){
             Toast.makeText(context, "Entré une réponse", Toast.LENGTH_LONG).show();
         } else {
-            int reponse = Integer.parseInt(rep.getText().toString());
+            int reponse = getRep();
             if (reponse > 20037){
                 Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre", Toast.LENGTH_LONG).show();
             } else {
                 getCurrentLocation();
+                Toast.makeText(context, "distance : " + calculerDistance() + "Km", Toast.LENGTH_LONG).show();
                 Toast.makeText(context, "différence : " + difDistance() + "Km", Toast.LENGTH_LONG).show();
+                scoreCalc();
+                rep.getText().clear();
             /*distRep.setText("distance : " + Integer.toString(calculerDistance()));
             dif.setText("différence : " + Integer.toString(difDistance()));*/
                 if (i != balises.size()){
@@ -194,13 +199,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     afficherBalise();
                 } else {
                     Intent intent = new Intent(this, EndActivity.class);
+                    intent.putExtra("score",score);
+                    intent.putExtra("scoreTot",scoreTot);
                     startActivity(intent);
                 }
             }
         }
     }
 
-    public void getCurrentLocation() {
+    private void getCurrentLocation() {
         if (mLocationPermissionGranted) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -227,15 +234,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public int calculerDistance(){
+    private int calculerDistance(){
         float[] results = new float[1];
         Location.distanceBetween(latitude, longitude, balise.getLatitude(), balise.getLongitude(), results);
         int distance = (int)results[0]/1000;
         return distance;
     }
 
-    public int difDistance(){
-        int dif = calculerDistance() - Integer.parseInt(rep.getText().toString());
+    private int difDistance(){
+        int dif = calculerDistance() - getRep();
         return  Math.abs(dif);
     }
 
@@ -244,5 +251,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         balise.creerMarqueur(mMap);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(balise.coordonnees));
         i++;
+    }
+
+    private void scoreCalc(){
+        if (difDistance() <= (int)(calculerDistance()*0.05)){
+            score = score +10;
+        } else if (difDistance() <= (int)(calculerDistance()*0.1)){
+            score = score +9;
+        } else if (difDistance() <= (int)(calculerDistance()*0.2)){
+            score = score +8;
+        } else if (difDistance() <= (int)(calculerDistance()*0.3)){
+            score = score +7;
+        } else if (difDistance() <= (int)(calculerDistance()*0.4)){
+            score = score +6;
+        } else if (difDistance() <= (int)(calculerDistance()*0.5)){
+            score = score +5;
+        } else if (difDistance() <= (int)(calculerDistance()*0.6)){
+            score = score +4;
+        } else if (difDistance() <= (int)(calculerDistance()*0.7)){
+            score = score +3;
+        } else if (difDistance() <= (int)(calculerDistance()*0.8)){
+            score = score +2;
+        }else if (difDistance() <= (int)(calculerDistance()*0.9)){
+            score = score +1;
+        } else {
+            score = score + 0;
+        }
+
+        scoreTot = scoreTot + 10;
+    }
+
+    private int getRep(){
+        return Integer.parseInt(rep.getText().toString());
+    }
+
+    @Override
+    public void onBackPressed(){
+
     }
 }
