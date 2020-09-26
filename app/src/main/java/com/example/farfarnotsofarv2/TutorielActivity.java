@@ -16,7 +16,8 @@ public class TutorielActivity extends com.github.paolorotolo.appintro.AppIntro {
         //setContentView(R.layout.activity_app_intro);
 
         addSlide(AppIntroFragment.newInstance("Far Far ... Not So Far !","Bonjour et Bienvenue dans Far Far ... Not So Far !",R.drawable.title, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary)));
-        addSlide(AppIntroFragment.newInstance("But du jeux","Dans ce jeux, vous devez deviner la distance entre vous et le point sur la carte.",R.drawable.title, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary)));
+        addSlide(AppIntroFragment.newInstance("But du jeux","Dans ce jeux, vous devez deviner la distance entre vous et le point sur la carte.",R.drawable.tuto1, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary)));
+        addSlide(AppIntroFragment.newInstance("Donner votre réponse","Pour cela, vous entrez une distance et validé votre réponse.",R.drawable.tuto2, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary)));
     }
 
     @Override

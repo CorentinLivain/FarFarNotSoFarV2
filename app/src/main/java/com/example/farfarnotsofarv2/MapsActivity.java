@@ -47,14 +47,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public EditText rep;
     public boolean mLocationPermissionGranted;
     public FusedLocationProviderClient mFusedLocationProviderClient;
-    public double longitude, latitude;
-    public TextView bal;
+    public double longitudeAct, latitudeAct;
     public Context context;
     private ArrayList<Balise> balises;
     private Balise balise;
     private int i = 0;
     private int score = 0;
     private int scoreTot;
+    private String txtBalises;
+    private StringBuilder builder;
+    private int y = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         rep = (EditText) findViewById(R.id.reponse);
-        bal = (TextView) findViewById(R.id.balises);
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -164,15 +165,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //printBalises(balises);
     }
 
-    /*private void printBalises(ArrayList<Balise> balises){
-        StringBuilder builder = new StringBuilder();
+    private void allText(ArrayList<Balise> balises){
 
-        for (Balise balise : balises){
-            builder.append(balise.ville).append("\n").append(balise.coordonnees).append("\n\n");
+        if (y == 0){
+            builder = new StringBuilder();
+            builder.append("Distance entre vous et : \n\n\n");
         }
 
-        bal.setText(builder.toString());
-    }*/
+        builder.append("- " + balises.get(y).ville + " : " + calculerDistance() + "Km").append("\n\n");
+
+        y++;
+    }
 
     private void activerGPSWindow() {
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -188,19 +191,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre", Toast.LENGTH_LONG).show();
             } else {
                 getCurrentLocation();
-                Toast.makeText(context, "distance : " + calculerDistance() + "Km", Toast.LENGTH_LONG).show();
-                Toast.makeText(context, "différence : " + difDistance() + "Km", Toast.LENGTH_LONG).show();
                 scoreCalc();
+                allText(balises);
                 rep.getText().clear();
-            /*distRep.setText("distance : " + Integer.toString(calculerDistance()));
-            dif.setText("différence : " + Integer.toString(difDistance()));*/
                 if (i != balises.size()){
                     mMap.clear();
                     afficherBalise();
                 } else {
+                    txtBalises = builder.toString();
                     Intent intent = new Intent(this, EndActivity.class);
                     intent.putExtra("score",score);
                     intent.putExtra("scoreTot",scoreTot);
+                    intent.putExtra("txtBalises", txtBalises);
                     startActivity(intent);
                 }
             }
@@ -226,8 +228,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if (task.isSuccessful()) {
                         // Set the map's camera position to the current location of the device.
                         Location mLastKnownLocation = (Location) task.getResult();
-                        latitude = mLastKnownLocation.getLatitude();
-                        longitude = mLastKnownLocation.getLongitude();
+                        latitudeAct = mLastKnownLocation.getLatitude();
+                        longitudeAct = mLastKnownLocation.getLongitude();
                     }
                 }
             });
@@ -236,7 +238,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private int calculerDistance(){
         float[] results = new float[1];
-        Location.distanceBetween(latitude, longitude, balise.getLatitude(), balise.getLongitude(), results);
+        Location.distanceBetween(latitudeAct, longitudeAct, balise.getLatitude(), balise.getLongitude(), results);
         int distance = (int)results[0]/1000;
         return distance;
     }
