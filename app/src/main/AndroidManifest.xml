@@ -51,6 +51,9 @@
 
         <activity android:name=".EndActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".InfoActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

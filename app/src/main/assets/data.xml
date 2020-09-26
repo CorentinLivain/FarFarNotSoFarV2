@@ -2,14 +2,42 @@
 <balises>
     <balise>
         <ville>Paris</ville>
-        <latlng>48.8566969,2.3514616</latlng>
+        <latlng>48.8564826,2.3502248</latlng>
     </balise>
     <balise>
         <ville>Marseille</ville>
-        <latlng>45.7563,5.3699525</latlng>
+        <latlng>43.296336,5.3690131</latlng>
     </balise>
     <balise>
         <ville>Lyon</ville>
-        <latlng>48.08559184306898,4.82652</latlng>
+        <latlng>45.7676124,4.834709</latlng>
+    </balise>
+    <balise>
+        <ville>Rennes</ville>
+        <latlng>48.1111506,-1.6822335</latlng>
+    </balise>
+    <balise>
+        <ville>Bordeaux</ville>
+        <latlng>44.8376474,-0.5786159</latlng>
+    </balise>
+    <balise>
+        <ville>Lille</ville>
+        <latlng>50.6305767,3.0709542</latlng>
+    </balise>
+    <balise>
+        <ville>Brest</ville>
+        <latlng>48.3914598,-4.4870149</latlng>
+    </balise>
+    <balise>
+        <ville>Strasbourg</ville>
+        <latlng>48.584398,7.7505501</latlng>
+    </balise>
+    <balise>
+        <ville>Clermont-Ferrand</ville>
+        <latlng>45.779718,3.0845225</latlng>
+    </balise>
+    <balise>
+        <ville>Guéret</ville>
+        <latlng>46.1693593,1.8693103</latlng>
     </balise>
 </balises>
