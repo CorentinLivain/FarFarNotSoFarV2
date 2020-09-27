@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void game(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
+    public void choice(View view) {
+        Intent intent = new Intent(this, ChoiceActivity.class);
         startActivity(intent);
     }
 

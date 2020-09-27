@@ -54,6 +54,9 @@
 
         <activity android:name=".InfoActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".ChoiceActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -57,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String txtBalises;
     private StringBuilder builder;
     private int y = 0;
+    private String fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         context = getApplicationContext();
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            fileName = extras.getString("fileName");
+        }
 
         parseXML();
     }
@@ -121,7 +127,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             parserFactory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = parserFactory.newPullParser();
-            InputStream is = getAssets().open("data.xml");
+            InputStream is = getAssets().open(fileName);
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(is, null);
 
@@ -161,8 +167,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             eventType = parser.next();
         }
-
-        //printBalises(balises);
     }
 
     private void allText(ArrayList<Balise> balises){

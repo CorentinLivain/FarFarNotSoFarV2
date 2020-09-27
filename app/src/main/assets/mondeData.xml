@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<balises>
+    <balise>
+        <ville>New-York</ville>
+        <latlng>40.712799,-74.0062568</latlng>
+    </balise>
+    <balise>
+        <ville>Pretoria</ville>
+        <latlng>-25.7532184,28.1867438</latlng>
+    </balise>
+    <balise>
+        <ville>Tokyo</ville>
+        <latlng>35.6895141,139.6915516</latlng>
+    </balise>
+    <balise>
+        <ville>New-Delhi</ville>
+        <latlng>28.6323988,77.2068347</latlng>
+    </balise>
+    <balise>
+        <ville>le Caire</ville>
+        <latlng>30.0452574,31.244791</latlng>
+    </balise>
+    <balise>
+        <ville>Bueno Aires</ville>
+        <latlng>-34.6080671,-58.3739634</latlng>
+    </balise>
+    <balise>
+        <ville>Sydney</ville>
+        <latlng>-33.8731704,151.2060028</latlng>
+    </balise>
+    <balise>
+        <ville>Kinshasa</ville>
+        <latlng>-4.3061748,15.3082982</latlng>
+    </balise>
+    <balise>
+        <ville>Toronto</ville>
+        <latlng>43.6534467,-79.3840857</latlng>
+    </balise>
+    <balise>
+        <ville>Bamako</ville>
+        <latlng>12.6470794,-8.0016904</latlng>
+    </balise>
+</balises>

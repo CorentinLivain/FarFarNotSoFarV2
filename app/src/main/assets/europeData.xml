@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<balises>
+    <balise>
+        <ville>Londres</ville>
+        <latlng>51.5047973,-0.0786506</latlng>
+    </balise>
+    <balise>
+        <ville>Berlin</ville>
+        <latlng>52.5182606,13.4085098</latlng>
+    </balise>
+    <balise>
+        <ville>Madrid</ville>
+        <latlng>40.4186093,-3.6917449</latlng>
+    </balise>
+    <balise>
+        <ville>Rome</ville>
+        <latlng>41.8929896,12.4834268</latlng>
+    </balise>
+    <balise>
+        <ville>Amsterdam</ville>
+        <latlng>52.3712024,4.8923599</latlng>
+    </balise>
+    <balise>
+        <ville>Bruxelles</ville>
+        <latlng>50.8465582,4.3515991</latlng>
+    </balise>
+    <balise>
+        <ville>Lisbonne</ville>
+        <latlng>38.7081595,-9.1386762</latlng>
+    </balise>
+    <balise>
+        <ville>Vienne</ville>
+        <latlng>48.2108919,16.3566164</latlng>
+    </balise>
+    <balise>
+        <ville>Athènes</ville>
+        <latlng>37.9819267,23.7271277</latlng>
+    </balise>
+    <balise>
+        <ville>Varsovie</ville>
+        <latlng>52.2316714,21.0055922</latlng>
+    </balise>
+</balises>
