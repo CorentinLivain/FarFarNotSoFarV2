@@ -176,7 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             builder.append("Distance entre vous et : \n\n\n");
         }
 
-        builder.append("- " + balises.get(y).ville + " : " + calculerDistance() + "Km").append("\n\n");
+        builder.append("- " + balises.get(y).ville + " : " + calculerDistance() + " Km     - Votre réponse : " + getRep() + " Km").append("\n\n");
 
         y++;
     }
