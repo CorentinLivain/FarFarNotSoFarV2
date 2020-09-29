@@ -6,17 +6,15 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +26,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -44,11 +41,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
-    public EditText rep;
     public boolean mLocationPermissionGranted;
     public FusedLocationProviderClient mFusedLocationProviderClient;
-    public double longitudeAct, latitudeAct;
     public Context context;
+
+    private EditText rep;
+    private double longitudeAct, latitudeAct;
     private ArrayList<Balise> balises;
     private Balise balise;
     private int i = 0;
@@ -58,6 +56,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private StringBuilder builder;
     private int y = 0;
     private String fileName;
+    private TextView scoreText, baliseText;
+    private int bal = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         rep = (EditText) findViewById(R.id.reponse);
+        scoreText = (TextView) findViewById(R.id.score);
+        baliseText = (TextView) findViewById(R.id.nbBalise);
+
+        scoreText.setText("score : 0/100");
+        baliseText.setText("nombre de balise : " + bal + "/10");
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -169,23 +174,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void allText(ArrayList<Balise> balises){
-
-        if (y == 0){
-            builder = new StringBuilder();
-            builder.append("Distance entre vous et : \n\n\n");
-        }
-
-        builder.append("- " + balises.get(y).ville + " : " + calculerDistance() + " Km     - Votre réponse : " + getRep() + " Km").append("\n\n");
-
-        y++;
-    }
-
-    private void activerGPSWindow() {
-        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent);
-    }
-
     public void boutonPress(View view) {
         if (rep.getText().toString().isEmpty()){
             Toast.makeText(context, "Entré une réponse", Toast.LENGTH_LONG).show();
@@ -211,6 +199,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         }
+
+        closeKeyboard();
+
+        bal++;
+
+        scoreText.setText("score : " + score + "/100");
+        baliseText.setText("nombre de balise : " + bal + "/10");
+    }
+
+    private void activerGPSWindow() {
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent);
     }
 
     private void getCurrentLocation() {
@@ -287,6 +287,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         scoreTot = scoreTot + 10;
     }
 
+    private void allText(ArrayList<Balise> balises){
+
+        if (y == 0){
+            builder = new StringBuilder();
+            builder.append("Distance entre vous et : \n\n\n");
+        }
+
+        builder.append("- " + balises.get(y).ville + " : " + calculerDistance() + " Km     - Votre réponse : " + getRep() + " Km").append("\n\n");
+
+        y++;
+    }
+
     private int getRep(){
         return Integer.parseInt(rep.getText().toString());
     }
@@ -294,5 +306,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onBackPressed(){
 
+    }
+
+    private void closeKeyboard(){
+        View view = this.getCurrentFocus();
+        if(view != null){
+            InputMethodManager imm = (InputMethodManager)getSystemService(context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

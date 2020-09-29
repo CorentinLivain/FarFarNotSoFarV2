@@ -1,6 +1,7 @@
 package com.example.farfarnotsofarv2;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -14,7 +15,8 @@ public class Balise {
     public void creerMarqueur(GoogleMap pMap) {
         marqueur = pMap.addMarker(new MarkerOptions()
                 .position(coordonnees)
-                .title(ville));
+                .title(ville)
+                /*.icon(BitmapDescriptorFactory.fromResource(R.drawable.gorilla))*/);
     }
 
     public double getLatitude(){
