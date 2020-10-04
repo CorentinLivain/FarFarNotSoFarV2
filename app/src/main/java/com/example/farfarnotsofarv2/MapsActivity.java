@@ -57,7 +57,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int y = 0;
     private String fileName;
     private TextView scoreText, baliseText;
-    private int bal = 1;
+    private int bal = 0;
+    private int nbBalise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,17 +73,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         scoreText = (TextView) findViewById(R.id.score);
         baliseText = (TextView) findViewById(R.id.nbBalise);
 
-        scoreText.setText("score : 0/100");
-        baliseText.setText("nombre de balise : " + bal + "/10");
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            fileName = extras.getString("fileName");
+            nbBalise = extras.getInt("nbBalise");
+        }
+
+        scoreTot = nbBalise * 10;
+
+        setTextScreen();
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         context = getApplicationContext();
-
-        Bundle extras = getIntent().getExtras();
-        if(extras != null) {
-            fileName = extras.getString("fileName");
-        }
 
         parseXML();
     }
@@ -176,19 +179,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void boutonPress(View view) {
         if (rep.getText().toString().isEmpty()){
-            Toast.makeText(context, "Entré une réponse", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Entré une réponse", Toast.LENGTH_SHORT).show();
         } else {
             int reponse = getRep();
             if (reponse > 20037){
-                Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre", Toast.LENGTH_SHORT).show();
             } else {
                 getCurrentLocation();
                 scoreCalc();
                 allText(balises);
                 rep.getText().clear();
-                if (i != balises.size()){
+                if (i != nbBalise){
                     mMap.clear();
                     afficherBalise();
+
+                    closeKeyboard();
+
+                    setTextScreen();
                 } else {
                     txtBalises = builder.toString();
                     Intent intent = new Intent(this, EndActivity.class);
@@ -199,13 +206,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         }
-
-        closeKeyboard();
-
-        bal++;
-
-        scoreText.setText("score : " + score + "/100");
-        baliseText.setText("nombre de balise : " + bal + "/10");
     }
 
     private void activerGPSWindow() {
@@ -253,9 +253,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void afficherBalise(){
-        balise = balises.get(i);
+        int nbAle = 0 + (int)(Math.random() * ((balises.size() - 0) + 1));
+        balise = balises.get(nbAle);
         balise.creerMarqueur(mMap);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(balise.coordonnees));
+        balises.remove(nbAle);
         i++;
     }
 
@@ -283,8 +285,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             score = score + 0;
         }
-
-        scoreTot = scoreTot + 10;
     }
 
     private void allText(ArrayList<Balise> balises){
@@ -314,5 +314,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             InputMethodManager imm = (InputMethodManager)getSystemService(context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    private void setTextScreen() {
+        scoreText.setText("score : " + score + "/" + scoreTot);
+        baliseText.setText("nombre de balise : " + ++bal + "/" + nbBalise);
     }
 }

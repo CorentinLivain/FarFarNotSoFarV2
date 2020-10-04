@@ -18,40 +18,115 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/france"
+    <TextView
+        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="150dp"
-        android:onClick="franceBtn"
-        android:text="France"
+        android:layout_marginTop="50dp"
+        android:text="Endroit :"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    <Button
-        android:id="@+id/europe"
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:onClick="europeBtn"
-        android:text="Europe"
-        app:layout_constraintEnd_toStartOf="@+id/monde"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toEndOf="@+id/france"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+        <RadioButton
+            android:id="@+id/france"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="France"
+            android:onClick="radioEndroit"/>
+
+        <RadioButton
+            android:id="@+id/europe"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Europe"
+            android:onClick="radioEndroit"/>
+
+        <RadioButton
+            android:id="@+id/monde"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Monde"
+            android:onClick="radioEndroit"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:text="Nombre de balise :"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+        <RadioButton
+            android:id="@+id/cinq"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:onClick="radioNbBalise"/>
+
+        <RadioButton
+            android:id="@+id/dix"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:onClick="radioNbBalise"/>
+
+        <RadioButton
+            android:id="@+id/vingtCinq"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:text="25"
+            android:onClick="radioNbBalise"/>
+
+        <RadioButton
+            android:id="@+id/cinquante"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:text="50"
+            android:onClick="radioNbBalise"/>
+
+        <RadioButton
+            android:id="@+id/cent"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:onClick="radioNbBalise"/>
+    </RadioGroup>
 
     <Button
-        android:id="@+id/monde"
+        android:id="@+id/valider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:onClick="mondeBtn"
-        android:text="Monde"
+        android:layout_marginTop="75dp"
+        android:text="Valider"
+        android:onClick="valide"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
