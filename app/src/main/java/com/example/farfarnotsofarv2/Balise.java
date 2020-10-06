@@ -17,6 +17,8 @@ public class Balise {
                 .position(coordonnees)
                 .title(ville)
                 /*.icon(BitmapDescriptorFactory.fromResource(R.drawable.gorilla))*/);
+
+        marqueur.showInfoWindow();
     }
 
     public double getLatitude(){
