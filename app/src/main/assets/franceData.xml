@@ -400,4 +400,8 @@
         <ville>Moulins</ville>
         <latlng>46.5661552,3.3332843</latlng>
     </balise>
+    <balise>
+        <ville>Carhaix-Plouguer</ville>
+        <latlng>48.2757285,-3.5743013</latlng>
+    </balise>
 </balises>
