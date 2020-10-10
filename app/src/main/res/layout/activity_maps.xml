@@ -25,11 +25,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="20dp"
-        android:hint="Réponse (en Km)"
+        android:background="#FFFFFF"
+        android:hint="Entrer une réponse (en Km)"
         android:inputType="number"
         android:padding="10dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:paddingRight="10dp"
+        android:imeOptions="actionDone"/>
 
     <TextView
         android:id="@+id/nbBalise"
