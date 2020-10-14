@@ -48,13 +48,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private EditText rep;
     private double longitudeAct, latitudeAct;
     private ArrayList<Balise> balises;
+    private ArrayList<String> villes, reponses, distances;
     private Balise balise;
     private int i = 0;
     private int score = 0;
     private int scoreTot;
-    private String txtBalises;
-    private StringBuilder builder;
-    private int y = 0;
     private String fileName;
     private TextView scoreText, baliseText;
     private int bal = 0;
@@ -72,6 +70,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         rep = (EditText) findViewById(R.id.reponse);
         scoreText = (TextView) findViewById(R.id.score);
         baliseText = (TextView) findViewById(R.id.nbBalise);
+
+        villes = new ArrayList<>();
+        reponses = new ArrayList<>();
+        distances = new ArrayList<>();
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
@@ -187,7 +189,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else {
                 getCurrentLocation();
                 scoreCalc();
-                allText(balises);
+                allText();
                 rep.getText().clear();
                 if (i != nbBalise){
                     mMap.clear();
@@ -197,11 +199,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     setTextScreen();
                 } else {
-                    txtBalises = builder.toString();
                     Intent intent = new Intent(this, EndActivity.class);
                     intent.putExtra("score",score);
                     intent.putExtra("scoreTot",scoreTot);
-                    intent.putExtra("txtBalises", txtBalises);
+                    intent.putExtra("nbBalise", nbBalise);
+                    intent.putExtra("villes", villes);
+                    intent.putExtra("distances", distances);
+                    intent.putExtra("reponses", reponses);
                     startActivity(intent);
                 }
             }
@@ -287,16 +291,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void allText(ArrayList<Balise> balises){
-
-        if (y == 0){
-            builder = new StringBuilder();
-            builder.append("Distance entre vous et : \n\n\n");
-        }
-
-        builder.append("- " + balise.ville + " : " + calculerDistance() + " Km     - Votre réponse : " + getRep() + " Km").append("\n\n");
-
-        y++;
+    private void allText(){
+        villes.add(balise.ville);
+        reponses.add(Integer.toString(getRep()));
+        distances.add(Integer.toString(calculerDistance()));
     }
 
     private int getRep(){

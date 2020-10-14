@@ -70,7 +70,6 @@ public class ChoiceActivity extends AppCompatActivity {
         }
     }
 
-
     public void valide(View view) {
         if ((fileName == null) || (nbBalise == 0)) {
             Toast.makeText(context, "Veuillez sélectionner un endroit ET un nombre de balise", Toast.LENGTH_SHORT).show();
