@@ -13,7 +13,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -67,9 +69,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        rep = (EditText) findViewById(R.id.reponse);
         scoreText = (TextView) findViewById(R.id.score);
         baliseText = (TextView) findViewById(R.id.nbBalise);
+        rep = (EditText) findViewById(R.id.reponse);
 
         villes = new ArrayList<>();
         reponses = new ArrayList<>();
