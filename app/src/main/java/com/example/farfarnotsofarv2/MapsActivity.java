@@ -6,7 +6,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,7 +19,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +52,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Context context;
 
     private EditText rep;
+    private TextView scoreText, baliseText;
+    private Button valider;
+    private ProgressBar progressBar;
     private double longitudeAct, latitudeAct;
     private ArrayList<Balise> balises;
     private ArrayList<String> villes, reponses, distances;
@@ -56,7 +63,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int score = 0;
     private int scoreTot;
     private String fileName;
-    private TextView scoreText, baliseText;
     private int bal = 0;
     private int nbBalise;
 
@@ -69,19 +75,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        scoreText = (TextView) findViewById(R.id.score);
-        baliseText = (TextView) findViewById(R.id.nbBalise);
-        rep = (EditText) findViewById(R.id.reponse);
-
-        villes = new ArrayList<>();
-        reponses = new ArrayList<>();
-        distances = new ArrayList<>();
-
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             fileName = extras.getString("fileName");
             nbBalise = extras.getInt("nbBalise");
         }
+
+        rep = (EditText) findViewById(R.id.reponse);
+        rep.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    boutonPress();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
+        valider = (Button) findViewById(R.id.valider);
+        valider.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                boutonPress();
+            }});
+        scoreText = (TextView) findViewById(R.id.score);
+        baliseText = (TextView) findViewById(R.id.nbBalise);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        progressBar.setMax(nbBalise);
+
+        villes = new ArrayList<>();
+        reponses = new ArrayList<>();
+        distances = new ArrayList<>();
 
         scoreTot = nbBalise * 10;
 
@@ -181,7 +208,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void boutonPress(View view) {
+    public void boutonPress() {
         if (rep.getText().toString().isEmpty()){
             Toast.makeText(context, "Entré une réponse", Toast.LENGTH_SHORT).show();
         } else {
@@ -196,9 +223,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (i != nbBalise){
                     mMap.clear();
                     afficherBalise();
-
                     closeKeyboard();
-
                     setTextScreen();
                 } else {
                     Intent intent = new Intent(this, EndActivity.class);
@@ -303,9 +328,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return Integer.parseInt(rep.getText().toString());
     }
 
+    private void setTextScreen() {
+        scoreText.setText("score : " + score + "/" + scoreTot);
+        baliseText.setText("nombre de balise : " + ++bal + "/" + nbBalise);
+        progressBar.setProgress(bal);
+    }
+
     @Override
     public void onBackPressed(){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Quitter la partie ?");
+        alertDialog.setMessage("Voulez vous vraiment quitter la partie ? \n Votre progression sera perdue.");
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OUI", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                chargeMenu();
+            }
+        });
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NON", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
 
+            }
+        });
+        alertDialog.show();
     }
 
     private void closeKeyboard(){
@@ -316,8 +362,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void setTextScreen() {
-        scoreText.setText("score : " + score + "/" + scoreTot);
-        baliseText.setText("nombre de balise : " + ++bal + "/" + nbBalise);
+    private void chargeMenu(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

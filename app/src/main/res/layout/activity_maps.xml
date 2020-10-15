@@ -8,31 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity" >
 
-    <Button
-        android:id="@+id/valider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:text="valider"
-        android:onClick="boutonPress"
-        android:padding="10dp"
-        android:layout_marginBottom="20dp"
-        android:paddingRight="10dp"/>
-
-    <EditText
-        android:id="@+id/reponse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="20dp"
-        android:background="#FFFFFF"
-        android:hint="Entrer une réponse (en Km)"
-        android:inputType="number"
-        android:padding="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:onClick="boutonPress"/>
-
     <TextView
         android:id="@+id/nbBalise"
         android:layout_width="wrap_content"
@@ -52,5 +27,41 @@
         android:layout_marginRight="20dp"
         android:text=""
         android:textSize="20sp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_gravity="top"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginRight="55dp"/>
+
+    <Button
+        android:id="@+id/valider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:text="valider"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"
+        android:paddingRight="10dp"/>
+
+    <EditText
+        android:id="@+id/reponse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+        android:background="#FFFFFF"
+        android:hint="Entrer une réponse (en Km)"
+        android:inputType="number"
+        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:imeOptions="actionSend"/>
+
+
 
 </fragment>
