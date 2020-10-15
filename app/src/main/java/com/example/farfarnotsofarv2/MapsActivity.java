@@ -52,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Context context;
 
     private EditText rep;
-    private TextView scoreText, baliseText;
+    private TextView scoreText;
     private Button valider;
     private ProgressBar progressBar;
     private double longitudeAct, latitudeAct;
@@ -101,7 +101,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 boutonPress();
             }});
         scoreText = (TextView) findViewById(R.id.score);
-        baliseText = (TextView) findViewById(R.id.nbBalise);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         progressBar.setMax(nbBalise);
@@ -295,26 +294,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void scoreCalc(){
         if (difDistance() <= (int)(calculerDistance()*0.05)){
             score = score +10;
+            Toast.makeText(context, "Bravo ! Score parfait ! 10/10", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.1)){
             score = score +9;
+            Toast.makeText(context, "Pas loin du tout ! 9/10", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.2)){
             score = score +8;
+            Toast.makeText(context, "Pas mal ! 8/10", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.3)){
             score = score +7;
+            Toast.makeText(context, "Bien ! 7/10", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.4)){
             score = score +6;
+            Toast.makeText(context, "Un petit effort et t'y est ! 6/10", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.5)){
             score = score +5;
+            Toast.makeText(context, "La moyenne ! 5/10", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.6)){
             score = score +4;
+            Toast.makeText(context, "C'est tout juste ! 4/10", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.7)){
             score = score +3;
+            Toast.makeText(context, "C'est loin ! 3/10", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.8)){
             score = score +2;
+            Toast.makeText(context, "Alors ! 2/10", Toast.LENGTH_SHORT).show();
         }else if (difDistance() <= (int)(calculerDistance()*0.9)){
             score = score +1;
+            Toast.makeText(context, "Il va falloir réviser sa géo ! 1/10", Toast.LENGTH_SHORT).show();
         } else {
             score = score + 0;
+            Toast.makeText(context, "... 0/10", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -330,8 +340,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setTextScreen() {
         scoreText.setText("score : " + score + "/" + scoreTot);
-        baliseText.setText("nombre de balise : " + ++bal + "/" + nbBalise);
-        progressBar.setProgress(bal);
+        progressBar.setProgress(++bal);
     }
 
     @Override
