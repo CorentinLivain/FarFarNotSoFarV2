@@ -62,7 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int i = 0;
     private int score = 0;
     private int scoreTot;
-    private String fileName;
+    private String fileName, zone;
     private int bal = 0;
     private int nbBalise;
 
@@ -74,6 +74,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        context = getApplicationContext();
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
@@ -114,8 +116,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setTextScreen();
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        context = getApplicationContext();
 
         parseXML();
     }
@@ -207,40 +207,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    private void activerGPSWindow() {
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent);
+    }
+
     public void boutonPress() {
         if (rep.getText().toString().isEmpty()){
             Toast.makeText(context, "Entré une réponse", Toast.LENGTH_SHORT).show();
         } else {
-            int reponse = getRep();
-            if (reponse > 20037){
-                Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre", Toast.LENGTH_SHORT).show();
-            } else {
-                getCurrentLocation();
-                scoreCalc();
-                allText();
-                rep.getText().clear();
-                if (i != nbBalise){
-                    mMap.clear();
-                    afficherBalise();
-                    closeKeyboard();
-                    setTextScreen();
-                } else {
-                    Intent intent = new Intent(this, EndActivity.class);
-                    intent.putExtra("score",score);
-                    intent.putExtra("scoreTot",scoreTot);
-                    intent.putExtra("nbBalise", nbBalise);
-                    intent.putExtra("villes", villes);
-                    intent.putExtra("distances", distances);
-                    intent.putExtra("reponses", reponses);
-                    startActivity(intent);
-                }
-            }
+            gestionRep();
         }
     }
 
-    private void activerGPSWindow() {
-        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent);
+    private void gestionRep() {
+        int reponse = getRep();
+        if (reponse > 20037){
+            Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre", Toast.LENGTH_SHORT).show();
+        } else {
+            getCurrentLocation();
+            scoreCalc();
+            allText();
+            rep.getText().clear();
+            if (i != nbBalise){
+                mMap.clear();
+                afficherBalise();
+                closeKeyboard();
+                setTextScreen();
+            } else {
+                endGame();
+            }
+        }
     }
 
     private void getCurrentLocation() {
@@ -341,6 +338,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setTextScreen() {
         scoreText.setText("score : " + score + "/" + scoreTot);
         progressBar.setProgress(++bal);
+    }
+
+    private void endGame() {
+        Intent intent = new Intent(this, EndActivity.class);
+        intent.putExtra("score",score);
+        intent.putExtra("scoreTot",scoreTot);
+        intent.putExtra("nbBalise", nbBalise);
+        intent.putExtra("villes", villes);
+        intent.putExtra("distances", distances);
+        intent.putExtra("reponses", reponses);
+        switch (fileName){
+            case "franceData.xml" :
+                intent.putExtra("zone", "FR");
+                break;
+            case "europeData.xml" :
+                intent.putExtra("zone", "EU");
+                break;
+            case "mondeData.xml" :
+                intent.putExtra("zone", "WO");
+                break;
+        }
+        startActivity(intent);
     }
 
     @Override

@@ -1,12 +1,15 @@
 package com.example.farfarnotsofarv2;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,10 +17,12 @@ import java.util.ArrayList;
 
 public class EndActivity extends AppCompatActivity {
 
-    private TextView scoreAff;
-    private int score, scoreTot, nbBalise;
-    private String balises;
+    private TextView scoreAff, topScore;
+    private int score, scoreTot, nbBalise, scoreSave, bestScore;
+    private String zone, nomSave;
     private ArrayList<String> villes, reponses, distances;
+    private Context context;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +37,48 @@ public class EndActivity extends AppCompatActivity {
             villes = extras.getStringArrayList("villes");
             reponses = extras.getStringArrayList("reponses");
             distances = extras.getStringArrayList("distances");
-
+            zone = extras.getString("zone");
         }
 
+        context = getApplicationContext();
+
         scoreAff = (TextView) findViewById(R.id.scoreAff);
+        topScore = (TextView) findViewById(R.id.topScore);
+
+        nomSave = zone + "_" + nbBalise;
 
         createTable();
 
+        saveScore();
+
         scoreAff.setText(score + "/" + scoreTot);
+
+        topScore.setText("Meilleur score : " + bestScore);
+    }
+
+    private void saveScore() {
+        sharedPreferences = getBaseContext().getSharedPreferences("SCORES", MODE_PRIVATE);
+
+        Toast.makeText(this, "nomSave : " + nomSave, Toast.LENGTH_SHORT).show();
+
+        if (sharedPreferences.contains(nomSave)) {
+            scoreSave = sharedPreferences.getInt(nomSave, 0);
+            if(scoreSave < score){
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(nomSave, score);
+                editor.commit();
+                bestScore = score;
+            } else {
+                bestScore = scoreSave;
+            }
+
+            Toast.makeText(this, "scoreSave : " + scoreSave, Toast.LENGTH_SHORT).show();
+
+        } else {
+            sharedPreferences.edit().putInt(nomSave, score).apply();
+            bestScore = score;
+            Toast.makeText(this, "sauvegardé ", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void createTable() {
