@@ -41,26 +41,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void resetSave(View view) {
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Supprimer les meilleurs scores ?");
-        alertDialog.setMessage("Voulez vous vraiment supprimer vos meilleurs scores ? \n Vous ne pourrez pas les reprendres.");
-        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OUI", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                sharedPreferences = getBaseContext().getSharedPreferences("SCORES", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.commit();
-            }
-        });
-        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NON", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-        alertDialog.show();
+    public void score(View view){
+        Intent intent = new Intent(this, ScoreActivity.class);
+        startActivity(intent);
     }
 
     @Override

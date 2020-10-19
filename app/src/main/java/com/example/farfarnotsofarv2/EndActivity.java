@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,7 +20,6 @@ public class EndActivity extends AppCompatActivity {
     private int score, scoreTot, nbBalise, scoreSave, bestScore;
     private String zone, nomSave;
     private ArrayList<String> villes, reponses, distances;
-    private Context context;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -40,8 +38,6 @@ public class EndActivity extends AppCompatActivity {
             zone = extras.getString("zone");
         }
 
-        context = getApplicationContext();
-
         scoreAff = (TextView) findViewById(R.id.scoreAff);
         topScore = (TextView) findViewById(R.id.topScore);
 
@@ -59,8 +55,6 @@ public class EndActivity extends AppCompatActivity {
     private void saveScore() {
         sharedPreferences = getBaseContext().getSharedPreferences("SCORES", MODE_PRIVATE);
 
-        Toast.makeText(this, "nomSave : " + nomSave, Toast.LENGTH_SHORT).show();
-
         if (sharedPreferences.contains(nomSave)) {
             scoreSave = sharedPreferences.getInt(nomSave, 0);
             if(scoreSave < score){
@@ -72,12 +66,9 @@ public class EndActivity extends AppCompatActivity {
                 bestScore = scoreSave;
             }
 
-            Toast.makeText(this, "scoreSave : " + scoreSave, Toast.LENGTH_SHORT).show();
-
         } else {
             sharedPreferences.edit().putInt(nomSave, score).apply();
             bestScore = score;
-            Toast.makeText(this, "sauvegardé ", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -103,7 +94,7 @@ public class EndActivity extends AppCompatActivity {
 
         int[] to = new int[] { R.id.textViewCol1, R.id.textViewCol2, R.id.textViewCol3};
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.row_item, matrixCursor, from, to, 0);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.row_item_3, matrixCursor, from, to, 0);
 
         ListView lv = (ListView) findViewById(R.id.lv);
         lv.setAdapter(adapter);

@@ -81,4 +81,9 @@ public class ChoiceActivity extends AppCompatActivity {
         }
 
     }
+
+    public void menu(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 }
