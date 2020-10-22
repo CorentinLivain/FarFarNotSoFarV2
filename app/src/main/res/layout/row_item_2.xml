@@ -9,11 +9,13 @@
         android:id="@+id/textViewCol1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Large Text"
         android:layout_weight="1"
         android:gravity="center"
         android:padding="4dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/textViewCol2"
@@ -22,6 +24,8 @@
         android:text="Large Text"
         android:layout_weight="1"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
 
 </LinearLayout>

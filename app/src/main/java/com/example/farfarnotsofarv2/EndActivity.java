@@ -1,6 +1,5 @@
 package com.example.farfarnotsofarv2;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.MatrixCursor;
@@ -21,6 +20,7 @@ public class EndActivity extends AppCompatActivity {
     private String zone, nomSave;
     private ArrayList<String> villes, reponses, distances;
     private SharedPreferences sharedPreferences;
+    private boolean newBestScore = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +47,7 @@ public class EndActivity extends AppCompatActivity {
 
         saveScore();
 
-        scoreAff.setText(score + "/" + scoreTot);
-
-        topScore.setText("Meilleur score : " + bestScore);
+        setTextScreen();
     }
 
     private void saveScore() {
@@ -62,6 +60,7 @@ public class EndActivity extends AppCompatActivity {
                 editor.putInt(nomSave, score);
                 editor.commit();
                 bestScore = score;
+                newBestScore = true;
             } else {
                 bestScore = scoreSave;
             }
@@ -99,6 +98,16 @@ public class EndActivity extends AppCompatActivity {
         ListView lv = (ListView) findViewById(R.id.lv);
         lv.setAdapter(adapter);
 
+    }
+
+    private void setTextScreen() {
+        scoreAff.setText(score + "/" + scoreTot);
+
+        if (newBestScore) {
+            topScore.setText("Nouveau Meilleur score : " + bestScore);
+        } else {
+            topScore.setText("Meilleur score : " + bestScore);
+        }
     }
 
     public void menu(View view) {

@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/textView7"
@@ -34,21 +35,27 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:onClick="selectZone"
-            android:text="France" />
+            android:text="France"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
 
         <RadioButton
             android:id="@+id/europe"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:onClick="selectZone"
-            android:text="Europe" />
+            android:text="Europe"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
 
         <RadioButton
             android:id="@+id/monde"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:onClick="selectZone"
-            android:text="Monde" />
+            android:text="Monde"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
     </RadioGroup>
 
     <Button

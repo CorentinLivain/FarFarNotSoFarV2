@@ -78,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         context = getApplicationContext();
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             fileName = extras.getString("fileName");
             nbBalise = extras.getInt("nbBalise");
         }
@@ -97,11 +97,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         valider = (Button) findViewById(R.id.valider);
-        valider.setOnClickListener(new View.OnClickListener(){
+        valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boutonPress();
-            }});
+            }
+        });
         scoreText = (TextView) findViewById(R.id.score);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -134,22 +135,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
-                } else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
-                }
-            }
             return;
-        }
-
-        // si le GPS n'est pas activé
-        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            //demander à l'utilisateur de l'activer
-            activerGPSWindow();
         }
 
         mMap.setMyLocationEnabled(true);
@@ -205,11 +191,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             eventType = parser.next();
         }
-    }
-
-    private void activerGPSWindow() {
-        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent);
     }
 
     public void boutonPress() {

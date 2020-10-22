@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/textView4"
@@ -23,8 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Endroit :"
+        android:text="Zone :"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -44,6 +46,8 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="France"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:onClick="radioEndroit"/>
 
         <RadioButton
@@ -51,6 +55,8 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Europe"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:onClick="radioEndroit"/>
 
         <RadioButton
@@ -58,6 +64,8 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Monde"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:onClick="radioEndroit"/>
     </RadioGroup>
 
@@ -67,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
         android:text="Nombre de balise :"
+        android:textStyle="bold"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,6 +96,8 @@
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:text="5"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:onClick="radioNbBalise"/>
 
         <RadioButton
@@ -94,6 +105,8 @@
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:text="10"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:onClick="radioNbBalise"/>
 
         <RadioButton
@@ -101,6 +114,8 @@
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:text="25"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:onClick="radioNbBalise"/>
 
         <RadioButton
@@ -108,6 +123,8 @@
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:text="50"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:onClick="radioNbBalise"/>
 
         <RadioButton
@@ -115,6 +132,8 @@
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:text="100"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:onClick="radioNbBalise"/>
     </RadioGroup>
 

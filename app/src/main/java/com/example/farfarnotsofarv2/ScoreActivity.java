@@ -1,7 +1,6 @@
 package com.example.farfarnotsofarv2;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -68,31 +67,31 @@ public class ScoreActivity extends AppCompatActivity {
                 case 0 :
                     nbBalise = 5;
                     nomSave = zone + nbBalise;
-                    score = sharedPreferences.getInt(nomSave, 101);
+                    score = sharedPreferences.getInt(nomSave, 1001);
                     break;
                 case 1 :
                     nbBalise = 10;
                     nomSave = zone + nbBalise;
-                    score = sharedPreferences.getInt(nomSave, 101);
+                    score = sharedPreferences.getInt(nomSave, 1001);
                     break;
                 case 2 :
                     nbBalise = 25;
                     nomSave = zone + nbBalise;
-                    score = sharedPreferences.getInt(nomSave, 101);
+                    score = sharedPreferences.getInt(nomSave, 1001);
                     break;
                 case 3 :
                     nbBalise = 50;
                     nomSave = zone + nbBalise;
-                    score = sharedPreferences.getInt(nomSave, 101);
+                    score = sharedPreferences.getInt(nomSave, 1001);
                     break;
                 case 4 :
                     nbBalise = 100;
                     nomSave = zone + nbBalise;
-                    score = sharedPreferences.getInt(nomSave, 101);
+                    score = sharedPreferences.getInt(nomSave, 1001);
                     break;
             }
 
-            if (score == 101) {
+            if (score == 1001) {
                 matrixCursor.addRow(new Object[] { y + 1,nbBalise,"pas de score"});
                 y++;
             } else {
