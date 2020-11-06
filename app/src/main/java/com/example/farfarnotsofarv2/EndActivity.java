@@ -68,6 +68,7 @@ public class EndActivity extends AppCompatActivity {
         } else {
             sharedPreferences.edit().putInt(nomSave, score).apply();
             bestScore = score;
+            newBestScore = true;
         }
     }
 
@@ -111,7 +112,7 @@ public class EndActivity extends AppCompatActivity {
     }
 
     public void menu(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
 

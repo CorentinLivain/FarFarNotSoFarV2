@@ -2,5 +2,5 @@
     <string name="app_name">Far Far ... Not So Far !</string>
     <string name="BtnJouer">Jouer</string>
     <string name="title_activity_maps">Map</string>
-    <string name="textInfo">Ce jeux est développé par Corentin Livain,\n membre de l\'équipe AST.\n Il est produit dans le cadre des cours d\'Android\n de Mme Marfizi.</string>
+    <string name="textInfo">Ce jeux est développé par Corentin Livain,\n membre de l\'équipe AST.\nIl est produit dans le cadre des cours d\'Android\n de Mme Marfisi.</string>
 </resources>

@@ -15,7 +15,7 @@ public class InfoActivity extends AppCompatActivity {
     }
 
     public void menu(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
 }

@@ -37,7 +37,7 @@
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".MenuActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -2,7 +2,6 @@ package com.example.farfarnotsofarv2;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
@@ -12,13 +11,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -32,6 +28,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -55,16 +52,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TextView scoreText;
     private Button valider;
     private ProgressBar progressBar;
+
     private double longitudeAct, latitudeAct;
+    private LatLng latLngAct;
     private ArrayList<Balise> balises;
     private ArrayList<String> villes, reponses, distances;
     private Balise balise;
-    private int i = 0;
-    private int score = 0;
-    private int scoreTot;
-    private String fileName, zone;
-    private int bal = 0;
-    private int nbBalise;
+    private String fileName;
+    private int  nbBalise, zoom = 5, scoreTot, bal = 0, i = 0, score = 0;
+    private boolean firstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +200,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void gestionRep() {
         int reponse = getRep();
         if (reponse > 20037){
-            Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "La distance ne peut pas être supérieur à la circonférence/2 de la terre (20037 Km)", Toast.LENGTH_SHORT).show();
         } else {
             getCurrentLocation();
             scoreCalc();
@@ -213,7 +209,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (i != nbBalise){
                 mMap.clear();
                 afficherBalise();
-                closeKeyboard();
                 setTextScreen();
             } else {
                 endGame();
@@ -242,6 +237,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Location mLastKnownLocation = (Location) task.getResult();
                         latitudeAct = mLastKnownLocation.getLatitude();
                         longitudeAct = mLastKnownLocation.getLongitude();
+                        latLngAct = new LatLng(latitudeAct,longitudeAct);
+                        if (firstTime){
+                            addLines();
+                        }
                     }
                 }
             });
@@ -264,7 +263,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int nbAle = 0 + (int)(Math.random() * ((balises.size() - 0) + 1));
         balise = balises.get(nbAle);
         balise.creerMarqueur(mMap);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(balise.coordonnees));
+        if (!firstTime){
+            addLines();
+        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(balise.coordonnees, zoom));
         balises.remove(nbAle);
         i++;
     }
@@ -316,6 +318,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return Integer.parseInt(rep.getText().toString());
     }
 
+    private void addLines() {
+        mMap.addPolyline((new PolylineOptions())
+                .add(latLngAct,balise.coordonnees)
+                .width(10)
+                .color(R.color.black)
+                .geodesic(true));
+    }
+
     private void setTextScreen() {
         scoreText.setText("score : " + score + "/" + scoreTot);
         progressBar.setProgress(++bal);
@@ -363,16 +373,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         alertDialog.show();
     }
 
-    private void closeKeyboard(){
+    /*private void closeKeyboard(){
         View view = this.getCurrentFocus();
         if(view != null){
             InputMethodManager imm = (InputMethodManager)getSystemService(context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-    }
+    }*/
 
     private void chargeMenu(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
 }

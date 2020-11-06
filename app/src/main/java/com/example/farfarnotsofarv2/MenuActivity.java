@@ -15,20 +15,43 @@ import android.os.Bundle;
 import android.os.Process;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.Button;
 
 import static android.os.Process.SIGNAL_KILL;
 
-public class MainActivity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
+    private static boolean tutoVue;
+
+    public Button tuto;
     public Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_menu);
 
-        test();
+        activationLocalisation();
+
+        context = getApplicationContext();
+
+        //Toast.makeText(context, "1" + tutoVue, Toast.LENGTH_SHORT).show();
+
+        tuto = (Button) findViewById(R.id.tuto);
+        tuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tuto();
+            }
+        });
+
+        /*if (!tutoVue) {
+            tutoVue = true;
+            tuto();
+        }
+
+        Toast.makeText(context, "2" + tutoVue, Toast.LENGTH_SHORT).show();*/
     }
 
     public void choice(View view) {
@@ -36,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void tuto(View view) {
+    public void tuto() {
         Intent intent = new Intent(this, TutorielActivity.class);
         startActivity(intent);
     }
@@ -51,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void test() {
+    public void activationLocalisation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
