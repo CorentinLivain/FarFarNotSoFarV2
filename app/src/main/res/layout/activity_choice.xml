@@ -12,9 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Faite Votre Choix !"
+        android:fontFamily="@font/cardo"
+        android:text="Faite Votre Choix ! "
         android:textSize="36sp"
-        android:textStyle="bold"
+        android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/cardo"
         android:text="Zone :"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -36,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:background="#A6FFFFFF"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,28 +48,31 @@
             android:id="@+id/france"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/cardo"
+            android:onClick="radioEndroit"
             android:text="France"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:onClick="radioEndroit"/>
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/europe"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/cardo"
+            android:onClick="radioEndroit"
             android:text="Europe"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:onClick="radioEndroit"/>
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/monde"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/cardo"
+            android:onClick="radioEndroit"
             android:text="Monde"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:onClick="radioEndroit"/>
+            android:textStyle="bold" />
     </RadioGroup>
 
     <TextView
@@ -74,9 +80,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
+        android:fontFamily="@font/cardo"
         android:text="Nombre de balise :"
-        android:textStyle="bold"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
@@ -86,6 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:background="#A6FFFFFF"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,46 +103,51 @@
             android:id="@+id/cinq"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/cardo"
+            android:onClick="radioNbBalise"
             android:text="5"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:onClick="radioNbBalise"/>
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/dix"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/cardo"
+            android:onClick="radioNbBalise"
             android:text="10"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:onClick="radioNbBalise"/>
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/vingtCinq"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/cardo"
+            android:onClick="radioNbBalise"
             android:text="25"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:onClick="radioNbBalise"/>
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/cinquante"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/cardo"
+            android:onClick="radioNbBalise"
             android:text="50"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:onClick="radioNbBalise"/>
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/cent"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/cardo"
+            android:onClick="radioNbBalise"
             android:text="100"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:onClick="radioNbBalise"/>
+            android:textStyle="bold" />
     </RadioGroup>
 
     <Button
@@ -142,21 +155,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:fontFamily="@font/cardo"
         android:onClick="valide"
         android:text="Valider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2"
+        android:background="@drawable/custom_button"/>
 
     <Button
         android:id="@+id/button10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Menu principal"
+        android:fontFamily="@font/cardo"
         android:onClick="menu"
+        android:text="Menu principal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/valider" />
+        app:layout_constraintTop_toBottomOf="@+id/valider"
+        android:background="@drawable/custom_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

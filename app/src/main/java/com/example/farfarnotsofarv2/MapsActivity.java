@@ -59,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<String> villes, reponses, distances;
     private Balise balise;
     private String fileName;
-    private int  nbBalise, zoom = 5, scoreTot, bal = 0, i = 0, score = 0;
+    private int  nbBalise, zoom, scoreTot, bal = 0, i = 0, score = 0;
     private boolean firstTime = true;
 
     @Override
@@ -77,6 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (extras != null) {
             fileName = extras.getString("fileName");
             nbBalise = extras.getInt("nbBalise");
+            zoom = extras.getInt("zoom");
         }
 
         rep = (EditText) findViewById(R.id.reponse);
@@ -189,14 +190,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Vérifie si une réponse est entrée dans le champ de texte
+     * Si non, affiche un toast demandant d'entrer une réponse
+     * Si oui, appel la fonction gestionRep()
+     */
     public void boutonPress() {
         if (rep.getText().toString().isEmpty()){
-            Toast.makeText(context, "Entré une réponse", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Entrez une réponse", Toast.LENGTH_SHORT).show();
         } else {
             gestionRep();
         }
     }
 
+    /**
+     *
+     */
     private void gestionRep() {
         int reponse = getRep();
         if (reponse > 20037){
@@ -247,18 +256,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Renvois la distance entre les deux balises affichées
+     * stock la distance dans un tableau et la divise par 1000 pour la donner en Km
+     */
     private int calculerDistance(){
         float[] results = new float[1];
-        Location.distanceBetween(latitudeAct, longitudeAct, balise.getLatitude(), balise.getLongitude(), results);
+        Location.distanceBetween(latitudeAct, longitudeAct, balise.getLatitude(), balise.getLongitude(), results); // prends les lattitude et les longitudes des balises et les stocke dans un tableau(results)
         int distance = (int)results[0]/1000;
         return distance;
     }
 
+    // Renvois la différence entre la bonne réponse et la réponse du joueur
     private int difDistance(){
         int dif = calculerDistance() - getRep();
         return  Math.abs(dif);
     }
 
+    /**
+     * Affiche une nouvelle balise sur la carte en en prenant une au hasard dans l'ArrayList balises
+     */
     private void afficherBalise(){
         int nbAle = 0 + (int)(Math.random() * ((balises.size() - 0) + 1));
         balise = balises.get(nbAle);
@@ -271,53 +288,59 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         i++;
     }
 
+    // Affiche un toast avec un petit texte et le score fait par le joueur
     private void scoreCalc(){
         if (difDistance() <= (int)(calculerDistance()*0.05)){
             score = score +10;
-            Toast.makeText(context, "Bravo ! Score parfait ! 10/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Bravo ! Score parfait ! 10/10 /n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.1)){
             score = score +9;
-            Toast.makeText(context, "Pas loin du tout ! 9/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Pas loin du tout ! 9/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.2)){
             score = score +8;
-            Toast.makeText(context, "Pas mal ! 8/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Pas mal ! 8/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.3)){
             score = score +7;
-            Toast.makeText(context, "Bien ! 7/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Bien ! 7/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.4)){
             score = score +6;
-            Toast.makeText(context, "Un petit effort et t'y est ! 6/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Un petit effort et t'y est ! 6/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.5)){
             score = score +5;
-            Toast.makeText(context, "La moyenne ! 5/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "La moyenne ! 5/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.6)){
             score = score +4;
-            Toast.makeText(context, "C'est tout juste ! 4/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "C'est tout juste ! 4/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.7)){
             score = score +3;
-            Toast.makeText(context, "C'est loin ! 3/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "C'est loin ! 3/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.8)){
             score = score +2;
-            Toast.makeText(context, "Alors ! 2/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Alors ! 2/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         }else if (difDistance() <= (int)(calculerDistance()*0.9)){
             score = score +1;
-            Toast.makeText(context, "Il va falloir réviser sa géo ! 1/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Il va falloir réviser sa géo ! 1/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         } else {
             score = score + 0;
-            Toast.makeText(context, "... 0/10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "... 0/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * remplis les arrayList villes, reponses et distances
+     */
     private void allText(){
         villes.add(balise.ville);
         reponses.add(Integer.toString(getRep()));
         distances.add(Integer.toString(calculerDistance()));
     }
 
+    // Renvoi la réponse entré par le joueur dans le champ de texte
     private int getRep(){
         return Integer.parseInt(rep.getText().toString());
     }
 
+    // Affiche une ligne entre les deux balises affichés grâce au LatLng de chacun
     private void addLines() {
         mMap.addPolyline((new PolylineOptions())
                 .add(latLngAct,balise.coordonnees)
@@ -326,11 +349,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .geodesic(true));
     }
 
+    // Mets à jour le score et la barre de progression
     private void setTextScreen() {
         scoreText.setText("score : " + score + "/" + scoreTot);
         progressBar.setProgress(++bal);
     }
 
+    /**
+     * Lance l'activité de fin de partie en passant en paramètre le score du joueur, le score maximal possible,
+     * le nombre de balise affichée, les ArrayList contenant les villes, les réponses du joueur et les bonnes réponses
+     * et la zone de jeux
+     */
     private void endGame() {
         Intent intent = new Intent(this, EndActivity.class);
         intent.putExtra("score",score);
@@ -353,6 +382,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
+    // Affiche une fenêtre de dialogue demandant au joueur si il veut ou non quitter la partie
     @Override
     public void onBackPressed(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -381,6 +411,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }*/
 
+    // Renvois vers le menu principal
     private void chargeMenu(){
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);

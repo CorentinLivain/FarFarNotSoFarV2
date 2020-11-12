@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ChoiceActivity extends AppCompatActivity {
 
     private String fileName;
-    private int nbBalise = 0;
-    Context context;
+    private int nbBalise = 0, zoom;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +31,17 @@ public class ChoiceActivity extends AppCompatActivity {
             case R.id.france:
                 if (checked)
                     fileName = "franceData.xml";
+                    zoom = 5;
                     break;
             case R.id.europe:
                 if (checked)
                     fileName = "europeData.xml";
+                    zoom = 4;
                     break;
             case R.id.monde:
                 if (checked)
                     fileName = "mondeData.xml";
+                    zoom = 0;
                     break;
         }
     }
@@ -77,6 +80,7 @@ public class ChoiceActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MapsActivity.class);
             intent.putExtra("fileName", fileName);
             intent.putExtra("nbBalise", nbBalise);
+            intent.putExtra("zoom", zoom);
             startActivity(intent);
         }
 

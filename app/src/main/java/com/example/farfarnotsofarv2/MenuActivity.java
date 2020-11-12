@@ -9,6 +9,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -22,10 +23,11 @@ import static android.os.Process.SIGNAL_KILL;
 public class MenuActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
-    private static boolean tutoVue;
 
     public Button tuto;
-    public Context context;
+    private SharedPreferences sharedPreferences;
+    private boolean tutoVue;
+    private static final String txtParam = "tutoVue";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +36,14 @@ public class MenuActivity extends AppCompatActivity {
 
         activationLocalisation();
 
-        context = getApplicationContext();
+        sharedPreferences = getBaseContext().getSharedPreferences("PARAMETRES", MODE_PRIVATE);
 
-        //Toast.makeText(context, "1" + tutoVue, Toast.LENGTH_SHORT).show();
+        if (!sharedPreferences.contains(txtParam)) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(txtParam, true);
+            editor.commit();
+            tuto();
+        }
 
         tuto = (Button) findViewById(R.id.tuto);
         tuto.setOnClickListener(new View.OnClickListener() {
@@ -45,13 +52,6 @@ public class MenuActivity extends AppCompatActivity {
                 tuto();
             }
         });
-
-        /*if (!tutoVue) {
-            tutoVue = true;
-            tuto();
-        }
-
-        Toast.makeText(context, "2" + tutoVue, Toast.LENGTH_SHORT).show();*/
     }
 
     public void choice(View view) {
