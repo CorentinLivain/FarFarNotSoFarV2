@@ -50,6 +50,11 @@ public class EndActivity extends AppCompatActivity {
         setTextScreen();
     }
 
+    /**
+     * Regarde si une sauvegarde existe pour la partie
+     * Si oui, regarde quel est le meilleur score et enregistre le meilleur
+     * Si non, créer une nouvelle sauvegarde avec le score
+     */
     private void saveScore() {
         sharedPreferences = getBaseContext().getSharedPreferences("SCORES", MODE_PRIVATE);
 
@@ -72,6 +77,9 @@ public class EndActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Créer un tableau regroupant toutes les réponses de la partie en ajoutant une ligne pour chaque balise
+     */
     private void createTable() {
         String[] columns = new String[] {"_id", "col1", "col2", "col3"};
 
@@ -101,6 +109,9 @@ public class EndActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Mets à jour les textes de score sur l'écran
+     */
     private void setTextScreen() {
         scoreAff.setText(score + "/" + scoreTot);
 

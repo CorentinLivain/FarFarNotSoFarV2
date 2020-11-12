@@ -66,6 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="50dp"
+        android:layout_marginBottom="25dp"
         android:background="#A6FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/button8"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,14 +78,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
+        android:background="@drawable/custom_button"
         android:fontFamily="@font/cardo"
         android:onClick="resetSave"
-        android:text="Réinitialiser les \n meilleurs scores"
+        android:text="   Réinitialiser les   \n   meilleurs scores   "
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/custom_button"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button7"
@@ -94,7 +95,7 @@
         android:background="@drawable/custom_button"
         android:fontFamily="@font/cardo"
         android:onClick="menu"
-        android:text="Menu principal"
+        android:text="   Menu principal   "
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -34,41 +34,41 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/custom_button"
         android:fontFamily="@font/cardo"
         android:onClick="score"
-        android:text="Tableau des scores"
+        android:text="   Tableau des scores   "
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tuto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        android:background="@drawable/custom_button"/>
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <Button
         android:id="@+id/tuto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="75dp"
+        android:background="@drawable/custom_button"
         android:fontFamily="@font/cardo"
-        android:text="Tutoriel"
+        android:text="   Tutoriel   "
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/custom_button"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="75dp"
+        android:background="@drawable/custom_button"
         android:fontFamily="@font/cardo"
         android:onClick="info"
-        android:text="Informations"
+        android:text="   Informations   "
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/custom_button"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

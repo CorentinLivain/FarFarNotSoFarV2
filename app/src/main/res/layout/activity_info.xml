@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:background="#A6FFFFFF"
         android:fontFamily="@font/cardo"
+        android:gravity="center"
         android:text="@string/textInfo"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -47,13 +48,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="75dp"
+        android:background="@drawable/custom_button"
         android:fontFamily="@font/cardo"
         android:onClick="menu"
-        android:text="Menu Principal"
+        android:text="   Menu Principal   "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/custom_button"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView2"

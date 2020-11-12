@@ -27,6 +27,10 @@ public class ScoreActivity extends AppCompatActivity {
         sharedPreferences = getBaseContext().getSharedPreferences("SCORES", MODE_PRIVATE);
     }
 
+    /**
+     * Regarde la zone sélectionnée pour afficher le tableau
+     * @param view
+     */
     public void selectZone(View view) {
         boolean checked = ((RadioButton) view).isChecked();
 
@@ -48,6 +52,9 @@ public class ScoreActivity extends AppCompatActivity {
         showBestScore();
     }
 
+    /**
+     * Créer un tableau regroupanat le meilleur score pour chaque nombre de balise
+     */
     private void showBestScore() {
         String[] columns = new String[] {"_id", "col1", "col2"};
 
@@ -110,6 +117,10 @@ public class ScoreActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
     }
 
+    /**
+     * Réinitialise la sauvegarde de score en supprimant le sharedPreference associé
+     * @param view
+     */
     public void resetSave(View view) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Supprimer les meilleurs scores ?");

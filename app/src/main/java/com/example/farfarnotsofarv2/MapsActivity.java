@@ -143,6 +143,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         afficherBalise();
     }
 
+    /**
+     * Ouvre et traite le fichier xml contenant les données des balises et appelle ProcessParsing()
+     */
     private void parseXML(){
         XmlPullParserFactory parserFactory;
         try {
@@ -158,6 +161,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Extrait les données de chaque balise en fonction des balises XML
+     * @param parser : fichier traité dans parseXML()
+     * @throws XmlPullParserException
+     * @throws IOException
+     */
     private void processParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
         balises = new ArrayList<>();
         int eventType = parser.getEventType();
@@ -204,7 +213,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     *
+     * Regarde si la réponse est sup à la moitié de la circonférence de la terre
+     * Si oui, demande de rentrer une nouvelle réponse
+     * Si non, demande la localisation actuel du joueur, calcule le score, mets à jour les ArrayList et clear le champ de réponse
+     * Ensuite, si le nombre de balise max n'est pas atteint, on clear la map et affiche une nouvelle balise
+     * Sinon, on finis la partie
      */
     private void gestionRep() {
         int reponse = getRep();
@@ -225,16 +238,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Donne la longitude et latitude actuel du joueur et créer une variable LatLng avec
+     */
     private void getCurrentLocation() {
         if (mLocationPermissionGranted) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return;
             }
             Task locationResult = mFusedLocationProviderClient.getLastLocation();
@@ -257,7 +266,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * Renvois la distance entre les deux balises affichées
+     *
+     * @return la distance entre les deux balises affichées
      * stock la distance dans un tableau et la divise par 1000 pour la donner en Km
      */
     private int calculerDistance(){
@@ -267,7 +277,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return distance;
     }
 
-    // Renvois la différence entre la bonne réponse et la réponse du joueur
+    /**
+     * @return la différence entre la bonne réponse et la réponse du joueur
+     */
     private int difDistance(){
         int dif = calculerDistance() - getRep();
         return  Math.abs(dif);
@@ -288,41 +300,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         i++;
     }
 
-    // Affiche un toast avec un petit texte et le score fait par le joueur
+    /**
+     * Affiche un toast avec un petit texte et le score fait par le joueur
+     */
     private void scoreCalc(){
         if (difDistance() <= (int)(calculerDistance()*0.05)){
             score = score +10;
-            Toast.makeText(context, "Bravo ! Score parfait ! 10/10 /n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Bravo ! Score parfait ! 10/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.1)){
             score = score +9;
-            Toast.makeText(context, "Pas loin du tout ! 9/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Pas loin du tout ! 9/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.2)){
             score = score +8;
-            Toast.makeText(context, "Pas mal ! 8/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Pas mal ! 8/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.3)){
             score = score +7;
-            Toast.makeText(context, "Bien ! 7/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Bien ! 7/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.4)){
             score = score +6;
-            Toast.makeText(context, "Un petit effort et t'y est ! 6/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Un petit effort et t'y est ! 6/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.5)){
             score = score +5;
-            Toast.makeText(context, "La moyenne ! 5/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "La moyenne ! 5/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.6)){
             score = score +4;
-            Toast.makeText(context, "C'est tout juste ! 4/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "C'est tout juste ! 4/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.7)){
             score = score +3;
-            Toast.makeText(context, "C'est loin ! 3/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "C'est loin ! 3/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         } else if (difDistance() <= (int)(calculerDistance()*0.8)){
             score = score +2;
-            Toast.makeText(context, "Alors ! 2/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Alors ! 2/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         }else if (difDistance() <= (int)(calculerDistance()*0.9)){
             score = score +1;
-            Toast.makeText(context, "Il va falloir réviser sa géo ! 1/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Il va falloir réviser sa géo ! 1/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         } else {
             score = score + 0;
-            Toast.makeText(context, "... 0/10/n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "... 0/10 \n(Bonne réponse : " + calculerDistance() + "Km)", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -335,12 +349,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         distances.add(Integer.toString(calculerDistance()));
     }
 
-    // Renvoi la réponse entré par le joueur dans le champ de texte
+    /**
+     * @return la réponse entré par le joueur dans le champ de texte
+     */
     private int getRep(){
         return Integer.parseInt(rep.getText().toString());
     }
 
-    // Affiche une ligne entre les deux balises affichés grâce au LatLng de chacun
+    /**
+     * Affiche une ligne entre les deux balises affichés grâce au LatLng de chacun
+     */
     private void addLines() {
         mMap.addPolyline((new PolylineOptions())
                 .add(latLngAct,balise.coordonnees)
@@ -349,7 +367,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .geodesic(true));
     }
 
-    // Mets à jour le score et la barre de progression
+    /**
+     * Mets à jour le score et la barre de progression
+     */
     private void setTextScreen() {
         scoreText.setText("score : " + score + "/" + scoreTot);
         progressBar.setProgress(++bal);
@@ -382,7 +402,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
-    // Affiche une fenêtre de dialogue demandant au joueur si il veut ou non quitter la partie
+    /**
+     * Affiche une fenêtre de dialogue demandant au joueur si il veut ou non quitter la partie
+     */
     @Override
     public void onBackPressed(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -411,7 +433,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }*/
 
-    // Renvois vers le menu principal
+    /**
+     * Renvois vers le menu principal
+     */
     private void chargeMenu(){
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
